@@ -48,4 +48,38 @@ class PromptTest {
         Prompt prompt = new Prompt("customer-support", promptVersions);
         assertEquals(promptVersions, prompt.versions());
     }
+
+    @Test
+    void shouldRejectDuplicateVersionNumbers() {
+        PromptVersion firstVersion = new PromptVersion(
+                1,
+                "First Prompt",
+                PromptStatus.ACTIVE
+        );
+
+        PromptVersion secondVersion = new PromptVersion(
+                1,
+                "Second Prompt",
+                PromptStatus.DRAFT
+        );
+
+        assertThrows(
+                IllegalArgumentException.class,
+                () -> new Prompt(
+                        "customer-support",
+                        List.of(firstVersion, secondVersion)
+                )
+        );
+    }
+
+    @Test
+    void shouldRejectNullVersion() {
+        assertThrows(
+                NullPointerException.class,
+                () -> new Prompt(
+                        "customer-support",
+                        List.of((PromptVersion) null)
+                )
+        );
+    }
 }
