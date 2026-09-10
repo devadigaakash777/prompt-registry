@@ -82,4 +82,19 @@ class PromptRegistryTest {
                 )
         );
     }
+
+    @Test
+    void shouldRejectNullContext() {
+        PromptRepository promptRepository = name -> Optional.empty();
+
+        PromptRegistry promptRegistry = new PromptRegistry(
+                promptRepository,
+                new PromptResolver()
+        );
+
+        assertThrows(
+                NullPointerException.class,
+                () -> promptRegistry.resolve("customer-support", null)
+        );
+    }
 }
