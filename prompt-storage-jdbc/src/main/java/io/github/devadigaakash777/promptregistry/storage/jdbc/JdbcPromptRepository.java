@@ -19,7 +19,7 @@ import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 
-public class JdbcPromptRepository implements PromptRepository {
+public final class JdbcPromptRepository implements PromptRepository {
     private static final String FIND_BY_NAME_SQL = """
             SELECT 
                 p.id AS prompt_id,
@@ -64,7 +64,6 @@ public class JdbcPromptRepository implements PromptRepository {
 
                     if (promptData == null) {
                         promptData = new PromptData(
-                                resultSet.getObject("prompt_id", UUID.class),
                                 resultSet.getString("prompt_name")
                         );
                     }
@@ -103,7 +102,6 @@ public class JdbcPromptRepository implements PromptRepository {
     }
 
     private record PromptData(
-            UUID id,
             String name
     ) {}
 }
